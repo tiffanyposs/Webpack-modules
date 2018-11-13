@@ -77,3 +77,20 @@ module: {
 },
 ...
 ```
+
+
+### CSS Loaders
+
+* `css-loader` - Knows how to deal with CSS imports
+* `style-loader` - Takes CSS imports and adds them tot he HTML document
+
+You can load multiple loaders that target the same type of file. These are processed from RIGHT to LEFT
+
+```
+...
+{
+  use: ['style-loader', 'css-loader'],
+  test: /\.css$/,
+},
+...
+```
