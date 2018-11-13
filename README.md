@@ -51,11 +51,15 @@ const config = {
 module.exports = config;
 ```
 
+## Loaders
+
+To load a loader, you can use the `use` and `loader` keys. `use` is preferred unless the loader your are using requires `loader`.
+
 ### Babel Loaders
 
 Babel coverts ES6/7 code into ES5.
 
-* `babel-loader` - Teaches babel how to work with webpack
+* `babel-loader` - Teaches babel how to work with Webpack
 * `babel-core` - Takes the code, parses it, and generates some output files
 * `babel-preset-env` - Pieces of ES6/7 to look for and turn it into ES5
 
@@ -92,5 +96,21 @@ You can load multiple loaders that target the same type of file. These are proce
   use: ['style-loader', 'css-loader'],
   test: /\.css$/,
 },
+...
+```
+
+## Plugins
+
+Plugins process data outside of the `bundle.js`.
+
+#### Example
+
+Find any files that were transformed by it's loader and save as style.css:
+
+```
+...
+plugins: [
+  new ExtractTextPlugin('style.css'),
+],
 ...
 ```

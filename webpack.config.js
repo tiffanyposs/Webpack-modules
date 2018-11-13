@@ -1,4 +1,5 @@
 const path = require('path');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const config = {
   // basic required configs
@@ -16,12 +17,18 @@ const config = {
         test: /\.js$/,
       },
       {
-        // css loaders, order matters. These will run from RIGHT TO LEFT
-        use: ['style-loader', 'css-loader'],
+        // extract the css
+        loader: ExtractTextPlugin.extract({
+          loader: 'css-loader',
+        }),
         test: /\.css$/,
       },
     ],
   },
+  plugins: [
+    // find any files that were transformed by it's loader and save as style.css
+    new ExtractTextPlugin('style.css'),
+  ],
 };
 
 module.exports = config;
