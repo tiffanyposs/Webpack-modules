@@ -34,6 +34,7 @@ Issues with using modules:
 * `output` (required) - where to save the output and what to name it
   * `path` (required) - path to folder to save bundle
   * `filename` (required) - filename (usually bundle.js)
+  * `publicPath` - file path to "public" assets
 
 #### Example
 
@@ -45,6 +46,7 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+    publicPath: 'build/',
   },
 };
 
@@ -97,6 +99,28 @@ You can load multiple loaders that target the same type of file. These are proce
   test: /\.css$/,
 },
 ...
+```
+
+### Image Loaders
+
+* `image-webpack-loader` - compress images automatically
+* `url-loader` - if it's small, include it in `bundle.js` as raw data, if the image is big it will be saved into our build directory
+
+#### Example
+
+If you need to pass options to your loader, you extract it into an object and pass options.
+
+```
+{
+  test: /\.(jpe?g|png|gif|svg)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: { limit: 40000 },
+    },
+    'image-webpack-loader',
+  ],
+},
 ```
 
 ## Plugins
