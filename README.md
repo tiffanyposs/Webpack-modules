@@ -138,3 +138,19 @@ plugins: [
 ],
 ...
 ```
+
+## Code Splitting
+
+When you split the code so only the minimum amount of JS is loaded. A good example is a login screen doesn't need to load all of the JS code until they actually login.
+
+With Webpack you can load an import on an event. Below, when Webpack bundles everything it will separate the core bundle from the `./image_viewer` code into a separate file, so it will only load (in this case) when the user clicks the button.
+
+```
+...
+button.onclick = () => {
+  System.import('./image_viewer').then((module) => {
+    module.default();
+  });
+};
+...
+```
