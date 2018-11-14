@@ -34,6 +34,7 @@ Issues with using modules:
 * `output` (required) - where to save the output and what to name it
   * `path` (required) - path to folder to save bundle
   * `filename` (required) - filename (usually bundle.js)
+  * `publicPath` - file path to "public" assets
 
 #### Example
 
@@ -45,17 +46,22 @@ const config = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+    publicPath: 'build/',
   },
 };
 
 module.exports = config;
 ```
 
+## Loaders
+
+To load a loader, you can use the `use` and `loader` keys. `use` is preferred unless the loader your are using requires `loader`.
+
 ### Babel Loaders
 
 Babel coverts ES6/7 code into ES5.
 
-* `babel-loader` - Teaches babel how to work with webpack
+* `babel-loader` - Teaches babel how to work with Webpack
 * `babel-core` - Takes the code, parses it, and generates some output files
 * `babel-preset-env` - Pieces of ES6/7 to look for and turn it into ES5
 
@@ -75,5 +81,60 @@ module: {
     },
   ],
 },
+...
+```
+
+
+### CSS Loaders
+
+* `css-loader` - Knows how to deal with CSS imports
+* `style-loader` - Takes CSS imports and adds them tot he HTML document
+
+You can load multiple loaders that target the same type of file. These are processed from RIGHT to LEFT
+
+```
+...
+{
+  use: ['style-loader', 'css-loader'],
+  test: /\.css$/,
+},
+...
+```
+
+### Image Loaders
+
+* `image-webpack-loader` - compress images automatically
+* `url-loader` - if it's small, include it in `bundle.js` as raw data, if the image is big it will be saved into our build directory
+
+#### Example
+
+If you need to pass options to your loader, you extract it into an object and pass options.
+
+```
+{
+  test: /\.(jpe?g|png|gif|svg)$/,
+  use: [
+    {
+      loader: 'url-loader',
+      options: { limit: 40000 },
+    },
+    'image-webpack-loader',
+  ],
+},
+```
+
+## Plugins
+
+Plugins process data outside of the `bundle.js`.
+
+#### Example
+
+Find any files that were transformed by it's loader and save as style.css:
+
+```
+...
+plugins: [
+  new ExtractTextPlugin('style.css'),
+],
 ...
 ```
