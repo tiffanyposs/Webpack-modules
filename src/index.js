@@ -1,6 +1,11 @@
-import sum from './sum';
-import './image_viewer'; // if it just needs to run you can just import it w/o variable
+/* global System */
 
-const total = sum(10, 5);
+const button = document.createElement('button');
+button.innerText = 'Click Me';
+button.onclick = () => {
+  System.import('./image_viewer').then((module) => {
+    module.default();
+  });
+};
 
-console.log(total);
+document.body.appendChild(button);
